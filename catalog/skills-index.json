@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-19",
+  "totalSkills": 1,
+  "skills": [
+    {
+      "name": "gemini-image-generation",
+      "version": "1.0.0",
+      "description": "Generate professional images using Google's Gemini 3 Pro (quality, full control) or Gemini 2.0 Flash (speed, quick iterations). Supports custom aspect ratios, multiple resolutions, reference images, and Google Search grounding.",
+      "author": "Chirag Jain",
+      "path": "skills/gemini-image-generation",
+      "tags": [
+        "image-generation",
+        "gemini",
+        "google-ai",
+        "media",
+        "graphics"
+      ],
+      "platforms": [
+        "claude-code",
+        "cursor"
+      ],
+      "dependencies": [
+        "bash",
+        "curl",
+        "python3",
+        "base64"
+      ],
+      "features": [
+        "Two model options (Pro for quality, Flash for speed)",
+        "Custom aspect ratios (1:1, 16:9, 9:16, etc.)",
+        "Multiple resolutions (1K, 2K, 4K)",
+        "Reference image support (up to 14 images)",
+        "Google Search grounding for factual accuracy",
+        "Cross-platform (Linux, macOS, Windows)"
+      ],
+      "requiresApiKey": true,
+      "apiKeyProvider": "Google AI Studio",
+      "apiKeyUrl": "https://aistudio.google.com/",
+      "lastUpdated": "2026-01-19",
+      "status": "stable"
+    }
+  ],
+  "categories": {
+    "image-generation": [
+      "gemini-image-generation"
+    ],
+    "media": [
+      "gemini-image-generation"
+    ],
+    "google-ai": [
+      "gemini-image-generation"
+    ]
+  }
+}

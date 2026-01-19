@@ -1,0 +1,92 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# API Keys and credentials
+**/credentials.json
+**/config.json
+**/*secret*
+**/*apikey*
+**/*token*
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.temp/
+temp/
+tmp/
+
+# Generated files
+*.log
+*.out
+*.pid
+
+# Test outputs
+test-output/
+coverage/
+.coverage
+htmlcov/
+
+# Skill-specific temp files
+**/.gemini-*
+**/output-test*
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+ehthumbs.db
+ehthumbs_vista.db
+
+# Linux
+.directory
+.Trash-*
+
+# IDE-specific
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
