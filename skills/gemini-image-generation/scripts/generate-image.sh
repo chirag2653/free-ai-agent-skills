@@ -1,6 +1,7 @@
 #!/bin/bash
-# Gemini 3 Pro Image Generation Script
-# A robust, cross-platform script for generating images via Gemini API
+# Gemini Image Generation Script
+# Supports Gemini 3 Pro and Gemini 2.5 Flash models
+# A robust, cross-platform script for generating images via Google's Gemini API
 #
 # Usage: ./generate-image.sh [OPTIONS] --prompt "your prompt" --output "path/to/output.png"
 #
@@ -59,7 +60,7 @@ OPTIONAL ARGUMENTS:
 
     --model <model>           Gemini model to use
                               Options: gemini-3-pro-image-preview (professional, all params)
-                                       gemini-2.0-flash-exp-image-generation (faster, basic)
+                                       gemini-2.5-flash-image (faster, basic)
                               Default: gemini-3-pro-image-preview
                               Note: Flash models don't support aspect ratio or size options
 

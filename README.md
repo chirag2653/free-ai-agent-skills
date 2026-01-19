@@ -1,22 +1,22 @@
 # Free AI Agent Skills
 
-> A curated collection of production-ready skills for AI coding agents like Claude Code, Cursor, and other AI development tools.
+> A curated collection of production-ready skills for any AI agent that supports the SKILL.md standard - from coding to marketing, design, and beyond.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Skills](https://img.shields.io/badge/skills-1-green.svg)](./skills)
-[![Compatible](https://img.shields.io/badge/compatible-Claude%20Code%20%7C%20Cursor-orange.svg)]()
+[![Compatible](https://img.shields.io/badge/compatible-Cursor%20%7C%20Claude%20%7C%20Codex%20%7C%20Gemini-orange.svg)]()
 
 ---
 
 ## 🎯 What is This?
 
-Free AI Agent Skills is an open-source library of reusable skills that extend the capabilities of AI coding agents. Each skill is:
+Free AI Agent Skills is an open-source library of reusable skills that extend the capabilities of any AI agent. Each skill is:
 
-- ✅ **Universal Format** - Works with Claude Code, Cursor IDE, and other AI agents
+- ✅ **Universal SKILL.md Standard** - Works with any agent supporting the format (Cursor, Claude Code, Codex, Gemini CLI, etc.)
+- ✅ **Project-Aware** - Uses your project's API keys and environment automatically
 - ✅ **Production Ready** - Tested, documented, and battle-hardened
-- ✅ **Self-Contained** - No dependencies on proprietary systems
-- ✅ **Free & Open** - MIT licensed for unrestricted use
-- ✅ **Secure** - No hardcoded credentials or API keys
+- ✅ **Agent-Agnostic** - Works for coding, marketing, design, writing agents - any AI agent
+- ✅ **Secure** - No hardcoded credentials, pulls from your project's .env files
 
 ---
 
@@ -24,7 +24,7 @@ Free AI Agent Skills is an open-source library of reusable skills that extend th
 
 ### 🎨 [Gemini Image Generation](./skills/gemini-image-generation/)
 
-Generate professional images using Google's Gemini 3 Pro and Gemini 2.0 Flash models.
+Generate professional images using Google's Gemini 3 Pro and Gemini 2.5 Flash models.
 
 **Features:**
 - Two model options (Pro for quality, Flash for speed)
@@ -41,47 +41,38 @@ Generate professional images using Google's Gemini 3 Pro and Gemini 2.0 Flash mo
 
 ## 🚀 Quick Start
 
-### For Claude Code
+**Simple 3-step process:**
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/chirag2653/free-ai-agent-skills.git
+   ```
+
+2. **Install the skill to your AI agent's directory:**
+   - **Cursor**: `~/.cursor/skills/` (or `%USERPROFILE%\.cursor\skills\` on Windows)
+   - **Claude Code**: `~/.claude/skills/`
+   - **Codex**: `~/.codex/skills/`
+   - **Other agents**: Check your agent's documentation for the skills directory
+
+   Copy or symlink the skill folder there.
+
+3. **That's it!** Your AI agent will automatically detect and use the skill.
+
+### The Real Power
+
+Add your API keys to your project's `.env.local` file:
 
 ```bash
-# Clone the repository
-git clone https://github.com/chirag2653/free-ai-agent-skills.git
-
-# Symlink the skill you want
-ln -s "$(pwd)/free-ai-agent-skills/skills/gemini-image-generation" ~/.claude/skills/
+GEMINI_API_KEY=your-key-here
 ```
 
-### For Cursor IDE
-
-```bash
-# Clone the repository
-git clone https://github.com/chirag2653/free-ai-agent-skills.git
-
-# Symlink the skill you want
-ln -s "$(pwd)/free-ai-agent-skills/skills/gemini-image-generation" ~/.cursor/skills/
-```
-
-### Windows (PowerShell)
-
-```powershell
-# Clone the repository
-git clone https://github.com/chirag2653/free-ai-agent-skills.git
-
-# Copy the skill folder
-Copy-Item -Recurse "free-ai-agent-skills\skills\gemini-image-generation" "$env:USERPROFILE\.claude\skills\"
-# or for Cursor
-Copy-Item -Recurse "free-ai-agent-skills\skills\gemini-image-generation" "$env:USERPROFILE\.cursor\skills\"
-```
-
-### That's It!
-
-The skill's `SKILL.md` contains all the instructions your AI agent needs. Just mention "Gemini" when you want to generate an image.
+Now any AI agent working in your project folder can generate images directly - no separate configuration needed!
 
 ---
 
 ## 📖 How Skills Work
 
-Each skill is a simple folder with everything your AI agent needs:
+Skills use the universal **SKILL.md standard** - a simple format that any AI agent can understand:
 
 ```
 skill-name/
@@ -89,16 +80,17 @@ skill-name/
 └── scripts/           # Executable scripts (if needed)
 ```
 
-**That's it!** The `SKILL.md` file contains:
-- Metadata (name, version, description, author)
-- When to activate the skill
-- Interactive workflow for the AI agent
-- All instructions needed to use the skill
+**The Magic:**
+1. **Project-Aware**: Skills read API keys and config from your project's `.env` files
+2. **Agent-Agnostic**: Works with any AI agent that supports skills (coding, marketing, design, writing agents)
+3. **Zero Configuration**: Agent auto-detects skills, pulls credentials from your project
+4. **Universal Format**: One skill works across Cursor, Claude Code, Codex, Gemini CLI, and more
 
-This format works with:
-- **Claude Code** (Anthropic)
-- **Cursor IDE** 
-- **Any AI agent** supporting the SKILL.md format
+**Example Use Cases:**
+- 🖥️ **Coding agent** generates UI mockups in your app's `public/images/` folder
+- 📱 **Marketing agent** creates social media graphics with your brand assets
+- 📝 **Writing agent** generates illustrations for blog posts in your content folder
+- 🎨 **Design agent** prototypes icons and banners using project style guides
 
 ---
 
@@ -110,7 +102,7 @@ View the [Skills Catalog](./catalog/skills-index.json) for a machine-readable in
 
 ## 🤝 Contributing
 
-Have a useful skill for AI agents? Share it here!
+Have a useful skill for AI agents? Share it here! Skills can be for any domain - coding, marketing, design, data analysis, writing, research, etc.
 
 **Simple contribution process:**
 1. Fork this repository
@@ -121,21 +113,23 @@ Have a useful skill for AI agents? Share it here!
 6. Submit a pull request
 
 **Requirements:**
-- ✅ SKILL.md with proper frontmatter
-- ✅ No hardcoded credentials or API keys
-- ✅ Works across multiple AI agents (Claude Code, Cursor, etc.)
+- ✅ Uses the SKILL.md standard format
+- ✅ No hardcoded credentials - reads from project's `.env` files
+- ✅ Works across any AI agent supporting the SKILL.md format
+- ✅ Clear value proposition for any agent type (not just coding)
 - ✅ MIT or compatible license
 
 ---
 
 ## 🛠️ For AI Agents
 
-If you're an AI agent reading this:
+If you're an AI agent reading this (coding, marketing, design, writing - any domain):
 
 1. Check [AGENTS.md](./AGENTS.md) for repository guidelines
-2. Skills are in the `skills/` directory
+2. Skills are in the `skills/` directory - you can use them in any project folder
 3. Each skill has a `SKILL.md` with complete instructions
-4. The `catalog/skills-index.json` provides a searchable catalog
+4. Skills automatically use the project's API keys from `.env.local` or `.env` files
+5. The `catalog/skills-index.json` provides a searchable catalog
 
 ---
 

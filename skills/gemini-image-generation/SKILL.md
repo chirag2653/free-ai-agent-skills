@@ -1,7 +1,7 @@
 ---
 name: gemini-image-generation
-version: 1.0.0
-description: Generate professional images using Google's Gemini 3 Pro (quality, full control) or Gemini 2.0 Flash (speed, quick iterations). Supports custom aspect ratios, multiple resolutions, reference images, and Google Search grounding. ONLY activate when user EXPLICITLY mentions 'Gemini' or requests image generation with Gemini.
+version: 1.1.0
+description: Generate professional images using Google's Gemini 3 Pro or Gemini 2.5 Flash image models. Supports custom aspect ratios (1:1, 16:9, 9:16), resolutions (1K-4K), reference images, and Google Search grounding. Use when user mentions "Gemini", "Gemini image", "generate with Gemini", "Imagen", or explicitly requests Gemini-based image generation.
 author: Chirag Jain
 tags:
   - image-generation
@@ -9,9 +9,13 @@ tags:
   - google-ai
   - media
   - graphics
+  - imagen
 platforms:
-  - claude-code
   - cursor
+  - claude-code
+  - codex
+  - gemini-cli
+  - any-agent-supporting-skill-md
 allowed-tools:
   - Read
   - Shell
@@ -33,22 +37,59 @@ lastUpdated: 2026-01-19
 **ONLY activate when user EXPLICITLY mentions:**
 - "Gemini" / "Gemini 3 Pro" / "Gemini Flash" / "Gemini Image Model"
 - "using Gemini" / "via Gemini" / "with Gemini model"
+- "Imagen" (Google's image model brand)
 - Requests image generation specifically with Gemini
 
 **DO NOT activate for generic image requests** without Gemini mentioned.
 
 ---
 
+## 🤖 AI AGENT QUICK REFERENCE
+
+**Windows (PowerShell environment):**
+
+```powershell
+# Check API key
+Select-String -Path ".env.local" -Pattern "GEMINI_API_KEY" -Quiet
+
+# Execute generation (use full Git Bash path to avoid WSL issues)
+& "C:\Program Files\Git\bin\bash.exe" "$env:USERPROFILE\.cursor\skills\gemini-image-generation\scripts\generate-image.sh" --prompt "your prompt here" --output "output.png" --aspect-ratio "16:9" --size "1K" --model "gemini-3-pro-image-preview"
+```
+
+**Linux/macOS (bash environment):**
+
+```bash
+# Check API key
+grep -q "GEMINI_API_KEY" .env.local 2>/dev/null
+
+# Execute generation
+bash "$HOME/.cursor/skills/gemini-image-generation/scripts/generate-image.sh" --prompt "your prompt here" --output "output.png" --aspect-ratio "16:9" --size "1K" --model "gemini-3-pro-image-preview"
+```
+
+**Important for AI Agents (all types - coding, marketing, design, etc.):**
+- Use the Shell tool with the appropriate command above based on the operating system
+- The skill automatically reads `GEMINI_API_KEY` from the project's `.env.local` or `.env` file
+- On Windows, always use the full Git Bash path to avoid WSL execution errors
+- Skill directory varies by agent: `~/.cursor/skills/`, `~/.claude/skills/`, `~/.codex/skills/`, etc.
+
+---
+
 ## 📋 Overview
 
-This skill provides an **interactive, AI-guided workflow** for generating images using Google's Gemini API. The AI agent asks questions, gathers parameters, and executes the generation script.
+This skill provides an **interactive, AI-guided workflow** for generating images using Google's Gemini API. Works with any AI agent (coding, marketing, design, writing - any domain) in any project folder.
+
+**Key Benefits:**
+- 🔑 **Project-Aware**: Automatically uses API key from your project's `.env.local` file
+- 📁 **Context-Aware**: Saves images to your project's folders (public/images/, assets/, etc.)
+- 🤖 **Universal**: Works with any AI agent supporting the SKILL.md standard (Cursor, Claude, Codex, Gemini CLI, etc.)
+- 🎯 **Interactive**: Agent asks questions and guides you through the workflow
 
 ### Available Models
 
 | Model | Quality | Speed | Parameters |
 |-------|---------|-------|------------|
 | **Gemini 3 Pro** | Professional | Slower | Full control (aspect ratio, resolution) |
-| **Gemini 2.0 Flash** | Good | Faster | Basic (prompt only) |
+| **Gemini 2.5 Flash** | Good | Faster | Basic (prompt only) |
 
 ---
 
@@ -176,13 +217,13 @@ Ask the user for parameters conversationally:
 **Say to user:**
 > "Which Gemini model?
 > - `Pro` - Gemini 3 Pro: Professional quality, full control (recommended)
-> - `Flash` - Gemini 2.0 Flash: Faster iterations, prototyping
+> - `Flash` - Gemini 2.5 Flash: Faster iterations, prototyping
 >
 > (Or press Enter for default: Pro)"
 
 **Map user response to model ID:**
 - If user says "Pro", "pro", "3 Pro", or presses Enter: use `gemini-3-pro-image-preview`
-- If user says "Flash", "flash", "2.0 Flash": use `gemini-2.0-flash-exp-image-generation`
+- If user says "Flash", "flash", "2.5 Flash": use `gemini-2.5-flash-image`
 
 **Note for Flash model:** If user selects Flash, inform them:
 > "Note: Flash model doesn't support custom aspect ratios or sizes - it uses defaults. For full control, I recommend Gemini 3 Pro instead. Continue with Flash?"
@@ -224,65 +265,29 @@ SCRIPT_PATH="$SKILL_DIR/scripts/generate-image.sh"
 
 ---
 
-### STEP 6: Execute the Script (Cross-Platform)
+### STEP 6: Execute the Script
 
-**Detect platform and run the bash script accordingly:**
+**Determine script path based on OS:**
+- Windows: `$env:USERPROFILE\.cursor\skills\gemini-image-generation\scripts\generate-image.sh`
+- Linux/macOS: `~/.cursor/skills/gemini-image-generation/scripts/generate-image.sh`
 
-```bash
-# Detect operating system
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    PLATFORM="linux"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    PLATFORM="macos"
-elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
-    PLATFORM="windows"
-else
-    PLATFORM="unknown"
-fi
+**Run the appropriate command using the Shell tool:**
 
-# Build the command
-CMD="bash \"$SCRIPT_PATH\" --prompt \"$PROMPT\" --output \"$OUTPUT_PATH\""
+**Windows (PowerShell):**
 
-# Add optional parameters (only for Pro model, Flash ignores them)
-if [ "$MODEL" != "gemini-2.0-flash-exp-image-generation" ]; then
-    CMD="$CMD --aspect-ratio \"$ASPECT_RATIO\" --size \"$SIZE\""
-fi
-
-CMD="$CMD --model \"$MODEL\""
-
-# Execute based on platform
-case $PLATFORM in
-    linux|macos)
-        # Direct bash execution
-        eval $CMD
-        ;;
-    windows)
-        # Windows - try Git Bash first, then WSL
-        if command -v bash &> /dev/null; then
-            # Git Bash is available
-            bash -c "$CMD"
-        elif command -v wsl &> /dev/null; then
-            # Use WSL
-            wsl bash -c "$CMD"
-        else
-            echo "❌ Error: Bash not found. Please install Git for Windows or WSL."
-            echo "   Git for Windows: https://git-scm.com/download/win"
-            exit 1
-        fi
-        ;;
-    *)
-        echo "❌ Error: Unsupported platform: $PLATFORM"
-        exit 1
-        ;;
-esac
+```powershell
+& "C:\Program Files\Git\bin\bash.exe" "$env:USERPROFILE\.cursor\skills\gemini-image-generation\scripts\generate-image.sh" `
+    --prompt "$PROMPT" `
+    --output "$OUTPUT_PATH" `
+    --aspect-ratio "$ASPECT_RATIO" `
+    --size "$SIZE" `
+    --model "$MODEL"
 ```
 
-**For AI Agents using the Shell tool:**
-
-Simply run this command (the Shell tool handles platform detection):
+**Linux/macOS:**
 
 ```bash
-bash "$SCRIPT_PATH" \
+bash "$HOME/.cursor/skills/gemini-image-generation/scripts/generate-image.sh" \
     --prompt "$PROMPT" \
     --output "$OUTPUT_PATH" \
     --aspect-ratio "$ASPECT_RATIO" \
@@ -290,7 +295,25 @@ bash "$SCRIPT_PATH" \
     --model "$MODEL"
 ```
 
-The underlying system will handle bash execution on Windows (via Git Bash or WSL).
+**Important Notes:**
+- The Shell tool automatically uses PowerShell on Windows and bash on Unix systems
+- On Windows, use the **full Git Bash path** (`C:\Program Files\Git\bin\bash.exe`) to avoid WSL execution errors
+- Simply use `bash` command directly on Linux/macOS
+
+**If Git Bash is not installed on Windows:**
+
+Show this message and stop:
+
+```
+❌ Git Bash Required
+
+This skill requires Git Bash on Windows.
+
+Quick install: https://git-scm.com/download/win
+(Includes bash automatically)
+
+Alternative: Install WSL if you prefer a full Linux environment.
+```
 
 ---
 
@@ -351,7 +374,7 @@ Parse the error message and provide specific guidance:
 
 ### Model Comparison
 
-| Feature | Gemini 3 Pro | Gemini 2.0 Flash |
+| Feature | Gemini 3 Pro | Gemini 2.5 Flash |
 |---------|--------------|------------------|
 | Quality | Professional | Good |
 | Speed | Slower (~10-30s) | Faster (~5-15s) |
@@ -466,6 +489,20 @@ bash "$SCRIPT_PATH" \
 
 ---
 
+## 🔍 TROUBLESHOOTING FOR AI AGENTS
+
+| Symptom | Platform | Solution |
+|---------|----------|----------|
+| "bash not found" or "execvpe" error | Windows | Use full Git Bash path: `& "C:\Program Files\Git\bin\bash.exe"` instead of just `bash` |
+| "WSL (9 - Relay) ERROR" | Windows | Shell tool tried to use WSL - use full Git Bash path instead |
+| "No such file or directory" | Any | Verify script exists at `~/.cursor/skills/gemini-image-generation/scripts/generate-image.sh` |
+| Permission denied | Windows | Check file is not read-only; try running Cursor as admin |
+| Permission denied | Linux/macOS | Run `chmod +x ~/.cursor/skills/gemini-image-generation/scripts/generate-image.sh` |
+| Script path not found | Any | Skill may not be installed - check `~/.cursor/skills/` directory |
+| Command fails silently | Any | Check if Git Bash is installed on Windows or bash is available on Unix |
+
+---
+
 ## ⚠️ ERROR HANDLING MATRIX
 
 | Error | Detection | AI Agent Response |
@@ -525,6 +562,15 @@ bash "$SCRIPT_PATH" \
 ---
 
 ## 🔄 VERSION HISTORY
+
+### 1.1.0 (2026-01-19)
+- **Added:** AI Agent Quick Reference section with ready-to-use Shell tool commands
+- **Added:** Troubleshooting table for common execution errors
+- **Improved:** STEP 6 execution with explicit PowerShell/bash commands
+- **Improved:** Windows support with full Git Bash path to avoid WSL errors
+- **Updated:** Description to include "Imagen" trigger term
+- **Updated:** Flash model to current version: `gemini-2.5-flash-image` (replaces deprecated 2.0 model)
+- **Fixed:** Cross-platform execution issues on Windows PowerShell environment
 
 ### 1.0.0 (2026-01-19)
 - Initial release

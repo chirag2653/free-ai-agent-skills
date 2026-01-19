@@ -1,18 +1,20 @@
-# AGENTS.md - Guidelines for AI Coding Agents
+# AGENTS.md - Guidelines for AI Agents
 
-> **This file provides instructions for AI coding agents** (Claude Code, Cursor, GitHub Copilot, etc.) working with the Free AI Agent Skills repository.
+> **This file provides instructions for any AI agent** (coding, marketing, design, writing, research - any domain) working with the Free AI Agent Skills repository.
 
 ---
 
 ## 🎯 Repository Purpose
 
-This is a **public library of reusable skills** for AI coding agents. Skills are self-contained capabilities that extend what AI agents can do - like generating images, calling APIs, analyzing code, etc.
+This is a **public library of reusable skills** for any AI agent that supports the SKILL.md standard. Skills are self-contained capabilities that extend what AI agents can do - generating images, calling APIs, analyzing data, creating content, and more.
 
 **Key Principles:**
-1. **Universal Compatibility** - Skills work across multiple AI agent platforms
-2. **Security First** - No hardcoded credentials or secrets
-3. **Self-Documenting** - Each skill explains what it does and how to use it
-4. **Production Ready** - All skills are tested and documented
+1. **Universal SKILL.md Standard** - Works with any agent supporting the format (Cursor, Claude, Codex, Gemini CLI, etc.)
+2. **Project-Aware** - Skills read credentials and config from the project's `.env` files
+3. **Agent-Agnostic** - Works for coding, marketing, design, writing, research - any AI agent domain
+4. **Security First** - No hardcoded credentials or secrets
+5. **Self-Documenting** - Each skill explains what it does and how to use it
+6. **Production Ready** - All skills are tested and documented
 
 ---
 
@@ -252,10 +254,14 @@ When a user requests functionality that matches a skill:
 
 1. **Check if skill exists** - Look in `skills/` or `catalog/skills-index.json`
 2. **Read SKILL.md** - Get instructions and metadata
-3. **Check requirements** - Verify dependencies are available
-4. **Follow instructions** - Execute skill according to SKILL.md
-5. **Handle errors** - Use error handling from skill documentation
-6. **Report results** - Tell user what happened
+3. **Use project credentials** - Skills automatically pull API keys from the project's `.env.local` or `.env` files
+4. **Check requirements** - Verify dependencies are available
+5. **Follow instructions** - Execute skill according to SKILL.md
+6. **Work in project context** - Save outputs to appropriate project folders
+7. **Handle errors** - Use error handling from skill documentation
+8. **Report results** - Tell user what happened
+
+**Key Insight:** Skills are designed to work in any project folder with that project's credentials - whether you're a coding agent, marketing agent, design agent, or any other type of AI agent.
 
 ---
 
@@ -322,19 +328,25 @@ yq eval - SKILL.md
 
 ## 🌍 Platform Compatibility
 
-### Claude Code
-- Skills in `~/.claude/skills/`
-- Reads SKILL.md frontmatter
-- Loads skills based on description matching
+### Universal SKILL.md Standard
 
-### Cursor IDE
-- Skills in `~/.cursor/skills/`
-- Also supports `.cursor/rules/*.mdc` format
-- Can convert SKILL.md to .mdc if needed
+The SKILL.md format is supported by major AI agent platforms:
 
-### Other Agents
-- Follow SKILL.md format for best compatibility
-- Check individual agent documentation for installation
+- **Cursor**: `~/.cursor/skills/` - Full support for SKILL.md standard
+- **Claude Code**: `~/.claude/skills/` - Native SKILL.md support
+- **Codex**: `~/.codex/skills/` - SKILL.md compatible
+- **Gemini CLI**: Skills directory in config - Supports SKILL.md format
+- **Other agents**: Any agent supporting the SKILL.md standard can use these skills
+
+### Key Feature: Project-Aware Credentials
+
+All skills automatically read API keys from your project's environment:
+- `.env.local` (recommended for project-specific keys)
+- `.env` (fallback)
+- `~/.env.local` (user-level fallback)
+- Environment variables
+
+This means the same skill works across different projects with different credentials - no reconfiguration needed!
 
 ---
 
