@@ -1,29 +1,6 @@
 ---
 name: gemini-image-generation
-version: 2.1.0
-description: Generate professional images using Google's Gemini 3 Pro or Gemini 2.5 Flash image models with AI-powered prompt enhancement. Universal Python script works on all platforms - agents just use their Shell tool to run it. Supports custom aspect ratios (1:1, 16:9, 9:16), resolutions (1K-4K), reference images, Google Search grounding, and intelligent prompt enhancement using Google's Imagen best practices. Activate when user says "Generate an image with Gemini", "Create using Gemini Pro/Flash", "Use Gemini to make [image]", or any image generation request mentioning Gemini/Imagen.
-author: Chirag Jain
-tags:
-  - image-generation
-  - gemini
-  - google-ai
-  - media
-  - graphics
-  - imagen
-  - prompt-engineering
-platforms:
-  - cursor
-  - claude-code
-  - codex
-  - gemini-cli
-  - any-agent-supporting-skill-md
-allowed-tools:
-  - Read
-  - Shell
-  - Grep
-dependencies:
-  - python3 (with standard library - no extra packages needed)
-lastUpdated: 2026-01-20
+description: Generate professional images using Google's Gemini 3 Pro or Gemini 2.5 Flash image models with AI-powered prompt enhancement. Universal Python script works on all platforms. Supports custom aspect ratios (1:1, 16:9, 9:16), resolutions (1K-4K), reference images, Google Search grounding, and intelligent prompt enhancement using Google's Imagen best practices. Activate when user says "Generate an image with Gemini", "Create using Gemini Pro/Flash", "Use Gemini to make [image]", or any image generation request mentioning Gemini/Imagen.
 ---
 
 # Gemini Image Generation
@@ -61,27 +38,22 @@ lastUpdated: 2026-01-20
 
 ## 🤖 AI AGENT QUICK REFERENCE
 
-**Universal execution (works on all platforms):**
+**Execute the script from this skill's directory:**
 
+```bash
+python scripts/generate-image.py --prompt "your prompt" --output "output.png" --aspect-ratio "16:9" --size "1K" --model "gemini-3-pro-image-preview"
 ```
-python <script-path>/generate-image.py --prompt "your prompt" --output "output.png" --aspect-ratio "16:9" --size "1K" --model "gemini-3-pro-image-preview"
-```
 
-**Script path examples:**
-- PowerShell: `python "$env:USERPROFILE\.cursor\skills\gemini-image-generation\scripts\generate-image.py"`
-- Bash/Zsh: `python "$HOME/.cursor/skills/gemini-image-generation/scripts/generate-image.py"`
-- Claude: `python "$HOME/.claude/skills/gemini-image-generation/scripts/generate-image.py"`
-
-**Important for AI Agents (all types - coding, marketing, design, etc.):**
-- **Use your Shell tool to run the Python script** - works in any shell (PowerShell, Bash, Zsh, etc.)
+**Important for AI Agents:**
+- Use your Shell tool to run `scripts/generate-image.py` from this skill's base directory
+- Works in any shell (PowerShell, Bash, Zsh, etc.) - Python is cross-platform
 - The script automatically reads `GEMINI_API_KEY` from multiple locations (checked in order):
   1. `--env-file` flag (explicit path)
   2. `$GEMINI_API_KEY` environment variable
-  3. `.env.local` (current directory)
+  3. `.env.local` (current directory where command runs)
   4. `.env` (current directory)
   5. `~/.env.local` (home directory)
   6. `~/.env` (home directory)
-- Skill directory varies by agent: `~/.cursor/skills/`, `~/.claude/skills/`, `~/.codex/skills/`, etc.
 - **If API key not found:** Guide user to create appropriate file (see STEP 1 workflow)
 
 ---
@@ -451,7 +423,7 @@ GEMINI_API_KEY=your-api-key-here
 
 **CRITICAL:** After obtaining the prompt (whether from user input or extraction), ALWAYS offer to enhance it using Google's Imagen best practices.
 
-**Reference file:** Read `PROMPT_ENHANCEMENT.md` (same directory as this SKILL.md) for detailed enhancement techniques.
+**Reference file:** Read `references/PROMPT_ENHANCEMENT.md` (same directory as this SKILL.md) for detailed enhancement techniques.
 
 **Say to user:**
 > "Would you like me to enhance this prompt using Google's Imagen best practices for better results? (yes/no)"
@@ -460,7 +432,7 @@ GEMINI_API_KEY=your-api-key-here
 
 1. **Read the enhancement guide:**
    ```
-   Read: skills/gemini-image-generation/PROMPT_ENHANCEMENT.md
+   Read: skills/gemini-image-generation/references/PROMPT_ENHANCEMENT.md
    ```
 
 2. **Apply enhancement techniques** from the guide:
@@ -637,20 +609,10 @@ Ready to generate?
 
 ### STEP 4: Execute the Python Script
 
-Run the Python script using your Shell tool. The script location is typically:
-- `~/.cursor/skills/gemini-image-generation/scripts/generate-image.py`
-- `~/.claude/skills/gemini-image-generation/scripts/generate-image.py`
+Run the Python script using your Shell tool from this skill's base directory:
 
-**Universal command (works in any shell - PowerShell, Bash, Zsh, etc.):**
-
-```
-python <script-path> --prompt "$PROMPT" --output "$OUTPUT_PATH" --aspect-ratio "$ASPECT_RATIO" --size "$SIZE" --model "$MODEL"
-```
-
-**Example:**
-
-```
-python ~/.cursor/skills/gemini-image-generation/scripts/generate-image.py \
+```bash
+python scripts/generate-image.py \
     --prompt "$PROMPT" \
     --output "$OUTPUT_PATH" \
     --aspect-ratio "$ASPECT_RATIO" \
@@ -658,7 +620,7 @@ python ~/.cursor/skills/gemini-image-generation/scripts/generate-image.py \
     --model "$MODEL"
 ```
 
-**Note:** The same Python script works on all platforms. Just use your Shell tool to run it.
+**Note:** The script works on all platforms (Windows, macOS, Linux). Use your Shell tool to execute it.
 
 ---
 
@@ -761,7 +723,7 @@ ALWAYS - after you provide your prompt, the agent will ask:
 
 **Enhanced:** "Majestic mountain range at golden hour sunset, warm orange and pink light illuminating snow-capped peaks, dramatic clouds in the sky, serene and peaceful atmosphere, wide-angle landscape shot, photorealistic style with rich colors"
 
-**For full details:** See `PROMPT_ENHANCEMENT.md` in the same directory as this skill.
+**For full details:** See `references/PROMPT_ENHANCEMENT.md` in the same directory as this skill.
 
 ---
 
@@ -773,7 +735,7 @@ If user has existing images to use as style references:
 
 If yes:
 ```bash
-bash "$SCRIPT_PATH" \
+python scripts/generate-image.py \
     --prompt "$PROMPT" \
     --output "$OUTPUT_PATH" \
     --aspect-ratio "$ASPECT_RATIO" \
@@ -792,7 +754,7 @@ For factually accurate images (landmarks, historical figures, etc.):
 
 If yes:
 ```bash
-bash "$SCRIPT_PATH" \
+python scripts/generate-image.py \
     --prompt "$PROMPT" \
     --output "$OUTPUT_PATH" \
     --grounding true
@@ -1130,12 +1092,12 @@ Generating...
 
 ## 🔍 TROUBLESHOOTING FOR AI AGENTS
 
-| Symptom | Platform | Solution |
-|---------|----------|----------|
-| "python not found" | Any | Python 3 not installed - install from python.org |
-| "No such file or directory" | Any | Verify script exists at `~/.cursor/skills/gemini-image-generation/scripts/generate-image.py` |
-| Script path not found | Any | Skill may not be installed - check `~/.cursor/skills/` directory |
-| Module import errors | Any | Script uses standard library only - check Python 3 version |
+| Symptom | Solution |
+|---------|----------|
+| "python not found" | Python 3 not installed - install from python.org |
+| "No such file or directory" | Verify `scripts/generate-image.py` exists in this skill's directory |
+| Script path not found | Ensure you're running from the skill's base directory |
+| Module import errors | Script uses standard library only - verify Python 3 is installed |
 
 ---
 
@@ -1173,7 +1135,7 @@ Generating...
 - ✅ **Use smart defaults for most things:** aspect ratio, size (logos → 1:1, banners → 16:9)
 - ✅ **ALWAYS ask about model if not provided** - cost implications, users must choose
 - ✅ **ALWAYS offer prompt enhancement (STEP 2b)** - dramatically improves output quality
-- ✅ **Read PROMPT_ENHANCEMENT.md** when user accepts enhancement - contains all techniques
+- ✅ **Read references/PROMPT_ENHANCEMENT.md** when user accepts enhancement - contains all techniques
 - ✅ **Show before/after prompts** when enhancing - transparency builds trust
 - ✅ **Preserve user intent** during enhancement - never change core subject
 - ✅ **Apply appropriate detail level** - Pro model gets more detail, Flash gets focused detail
@@ -1199,7 +1161,7 @@ Generating...
 - ❌ **Change the subject during enhancement** - cat → lion is WRONG
 - ❌ **Add contradictory elements** - harsh lighting + peaceful mood don't mix
 - ❌ **Over-complicate simple requests** - match complexity to user intent
-- ❌ **Forget to read PROMPT_ENHANCEMENT.md** - it has all the techniques and examples
+- ❌ **Forget to read references/PROMPT_ENHANCEMENT.md** - it has all the techniques and examples
 - ❌ **Skip before/after comparison** - users need to see what changed
 - ❌ **Skip final confirmation (STEP 3)** - users need chance to make last-minute edits
 - ❌ **Default to Pro model** - always let users choose based on budget
@@ -1215,7 +1177,7 @@ Generating...
 - ❌ Use this skill for non-Gemini image requests
 - ❌ Hardcode paths or parameters
 - ❌ Show raw error messages without translation
-- ❌ Forget to check if script path exists
+- ❌ Use absolute paths - always use relative `scripts/generate-image.py`
 
 ---
 
@@ -1227,7 +1189,7 @@ Generating...
 - **Dependencies**: python3 (standard library only - no extra packages needed)
 - **API limits**: Based on Google AI Studio free tier
 - **Supported platforms**: All platforms with Python 3 (Linux, macOS, Windows)
-- **Enhancement Guide**: `PROMPT_ENHANCEMENT.md` - comprehensive prompt optimization techniques
+- **Enhancement Guide**: `references/PROMPT_ENHANCEMENT.md` - comprehensive prompt optimization techniques
 - **Key Features**: Smart extraction, prompt enhancement, cost control, interactive workflow
 
 ---
@@ -1237,7 +1199,7 @@ Generating...
 ### 2.1.0 (2026-01-20) - "AI-Powered Prompt Enhancement"
 - **✨ NEW FEATURE:** Intelligent prompt enhancement using Google's Imagen best practices
 - **Added:** New STEP 2b - Always offer prompt enhancement after getting user's prompt
-- **Added:** `PROMPT_ENHANCEMENT.md` - Comprehensive guide with 7 core principles and enhancement techniques
+- **Added:** `references/PROMPT_ENHANCEMENT.md` - Comprehensive guide with 7 core principles and enhancement techniques
 - **Added:** Enhancement examples showing before/after transformations
 - **Added:** Quick enhancement checklist for AI agents
 - **Improved:** Example conversation flows now include prompt enhancement workflow
