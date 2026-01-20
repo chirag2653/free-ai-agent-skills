@@ -29,18 +29,11 @@ free-ai-agent-skills/
 ├── skills/                      # All skills live here
 │   └── {skill-name}/           # One folder per skill
 │       ├── SKILL.md            # AI agent instructions (REQUIRED)
-│       ├── README.md           # Human documentation (REQUIRED)
 │       ├── scripts/            # Executable code (optional)
-│       ├── examples/           # Usage examples (recommended)
-│       └── tests/              # Test cases (recommended)
-├── catalog/
-│   └── skills-index.json       # Machine-readable skill catalog
-├── docs/                        # Documentation for contributors
-│   ├── creating-skills.md      # How to create new skills
-│   ├── compatibility.md        # Platform compatibility info
-│   └── installation.md         # Installation guides
-└── examples/
-    └── workflows/              # Multi-skill workflow examples
+│       ├── references/         # Documentation loaded as needed (optional)
+│       └── assets/             # Files used in output (optional)
+└── catalog/
+    └── skills-index.json       # Machine-readable skill catalog
 ```
 
 ---
@@ -54,49 +47,21 @@ Every skill **MUST** have a `SKILL.md` file with this format:
 ```markdown
 ---
 name: skill-name-in-kebab-case
-version: 1.0.0
-description: Clear description of what the skill does and when to use it
-author: Author Name
-tags:
-  - category1
-  - category2
-allowed-tools:
-  - Read
-  - Shell
-  - Grep
-dependencies:
-  - bash
-  - curl
-  - python3
+description: Clear description of what the skill does AND when to use it. Include trigger phrases. This is the PRIMARY triggering mechanism.
 ---
 
 # Skill Name
 
-> Brief overview of the skill
+Brief overview and instructions for the AI agent.
 
-## When to Use This Skill
+## Workflow
 
-Clear trigger conditions - when should the AI agent activate this skill?
+Step-by-step instructions for the AI agent to follow.
 
-## Setup Requirements
+## References
 
-Any one-time setup needed (API keys, dependencies, etc.)
-
-## Usage Instructions
-
-Step-by-step instructions for the AI agent to follow
-
-## Parameters
-
-Input parameters the skill accepts
-
-## Examples
-
-Concrete examples of using the skill
-
-## Error Handling
-
-Common errors and how to handle them
+- **Detailed Guide:** See `references/guide.md` for comprehensive documentation
+- **Examples:** See `references/examples.md` for conversation patterns
 ```
 
 ### Frontmatter Fields
@@ -104,12 +69,9 @@ Common errors and how to handle them
 | Field | Required | Description |
 |-------|----------|-------------|
 | `name` | ✅ Yes | Kebab-case skill identifier |
-| `version` | ✅ Yes | Semantic version (1.0.0) |
-| `description` | ✅ Yes | What the skill does and when to use it |
-| `author` | ✅ Yes | Skill creator's name |
-| `tags` | Recommended | Categories for discovery |
-| `allowed-tools` | Optional | Restrict which tools can be used |
-| `dependencies` | Recommended | External tools/packages needed |
+| `description` | ✅ Yes | What the skill does AND when to use it. This triggers the skill. |
+
+**Important:** Only `name` and `description` belong in frontmatter. All other metadata (version, author, tags) belongs in the `catalog/skills-index.json` file.
 
 ---
 
@@ -192,22 +154,22 @@ When adding or modifying skills:
 Follow this process:
 
 1. **Create skill folder** in `skills/{skill-name}/`
-2. **Write SKILL.md** with proper frontmatter
-3. **Write README.md** for humans
-4. **Add scripts** (if needed) in `scripts/` subfolder
-5. **Add examples** in `examples/` subfolder
-6. **Update catalog** - Add entry to `catalog/skills-index.json`
-7. **Test thoroughly** before submitting
+2. **Write SKILL.md** with proper frontmatter (`name` and `description` only)
+3. **Add scripts** (if needed) in `scripts/` subfolder
+4. **Add references** (if needed) in `references/` subfolder for detailed docs
+5. **Update catalog** - Add entry to `catalog/skills-index.json`
+6. **Test thoroughly** before submitting
 
 ### Checklist for New Skills
 
-- [ ] `SKILL.md` with valid frontmatter
-- [ ] `README.md` with installation instructions
+- [ ] `SKILL.md` with valid frontmatter (name + description only)
+- [ ] SKILL.md body under 500 lines (use references/ for details)
 - [ ] No hardcoded credentials or secrets
-- [ ] Scripts are executable and include shebang
-- [ ] Examples demonstrate real usage
+- [ ] Scripts tested and working
 - [ ] Updated `catalog/skills-index.json`
 - [ ] Tested locally
+
+**Do NOT create:** README.md, CHANGELOG.md, or other auxiliary documentation files inside the skill folder. The SKILL.md is the single source of truth.
 
 ---
 
@@ -375,5 +337,5 @@ If you're an AI agent and encounter issues:
 
 ---
 
-Last updated: 2026-01-19
-Version: 1.0.0
+Last updated: 2026-01-20
+Version: 1.1.0

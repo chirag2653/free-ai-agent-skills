@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-19",
+  "lastUpdated": "2026-01-20",
   "totalSkills": 1,
   "skills": [
     {
       "name": "gemini-image-generation",
-      "version": "1.0.0",
-      "description": "Generate professional images using Google's Gemini 3 Pro (quality, full control) or Gemini 2.0 Flash (speed, quick iterations). Supports custom aspect ratios, multiple resolutions, reference images, and Google Search grounding.",
+      "version": "2.1.0",
+      "description": "Generate professional images using Google's Gemini 3 Pro (quality, full control) or Gemini 2.5 Flash (speed, lower cost). Features AI-powered prompt enhancement using Google's Imagen best practices, custom aspect ratios, multiple resolutions, reference images, and Google Search grounding.",
       "author": "Chirag Jain",
       "path": "skills/gemini-image-generation",
       "tags": [
@@ -14,30 +14,32 @@
         "gemini",
         "google-ai",
         "media",
-        "graphics"
+        "graphics",
+        "prompt-enhancement"
       ],
       "platforms": [
         "claude-code",
-        "cursor"
+        "cursor",
+        "codex",
+        "any-skill-compatible-agent"
       ],
       "dependencies": [
-        "bash",
-        "curl",
-        "python3",
-        "base64"
+        "python3"
       ],
       "features": [
+        "AI-powered prompt enhancement using Google Imagen best practices",
         "Two model options (Pro for quality, Flash for speed)",
         "Custom aspect ratios (1:1, 16:9, 9:16, etc.)",
         "Multiple resolutions (1K, 2K, 4K)",
         "Reference image support (up to 14 images)",
         "Google Search grounding for factual accuracy",
+        "Smart extraction workflow",
         "Cross-platform (Linux, macOS, Windows)"
       ],
       "requiresApiKey": true,
       "apiKeyProvider": "Google AI Studio",
       "apiKeyUrl": "https://aistudio.google.com/",
-      "lastUpdated": "2026-01-19",
+      "lastUpdated": "2026-01-20",
       "status": "stable"
     }
   ],

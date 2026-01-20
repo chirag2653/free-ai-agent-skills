@@ -27,15 +27,17 @@ Free AI Agent Skills is an open-source library of reusable skills that extend th
 Generate professional images using Google's Gemini 3 Pro and Gemini 2.5 Flash models.
 
 **Features:**
+- ✨ **AI-powered prompt enhancement** using Google's Imagen best practices
 - Two model options (Pro for quality, Flash for speed)
 - Custom aspect ratios (1:1, 16:9, 9:16, etc.)
 - Multiple resolutions (1K, 2K, 4K)
 - Reference image support
-- Google Search grounding
+- Google Search grounding for factual accuracy
+- Smart workflow with intelligent parameter extraction
 
-**Perfect for:** Logos, banners, social media graphics, UI mockups
+**Perfect for:** Logos, banners, social media graphics, UI mockups, marketing materials
 
-[→ Read Full Documentation](./skills/gemini-image-generation/)
+[→ View Skill](./skills/gemini-image-generation/)
 
 ---
 
