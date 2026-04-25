@@ -100,6 +100,8 @@ skill-name/
 
 View the [Skills Catalog](./catalog/skills-index.json) for a machine-readable index of all available skills.
 
+Chinese users can also search and install skills through [Skills宝](https://skilery.com).
+
 ---
 
 ## 🤝 Contributing
